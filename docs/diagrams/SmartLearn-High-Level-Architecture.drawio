@@ -1,0 +1,142 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.10">
+  <diagram name="Page-1" id="muupVEzuTs9e6xjriilx">
+    <mxGraphModel dx="2572" dy="473" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <object label="Actor" placeholders="1" id="M7g-1iEhbomUVrw3q_K4-6">
+          <mxCell parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1">
+            <mxGeometry height="100" width="100" x="-830" y="145" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-11" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=light-dark(#fff, #ffffff);align=center;verticalAlign=middle;rounded=0;" value="&lt;span style=&quot;color: rgb(192, 192, 192); font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI Variable&amp;quot;, &amp;quot;Segoe UI&amp;quot;, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, &amp;quot;Apple Color Emoji&amp;quot;, &amp;quot;Segoe UI Emoji&amp;quot;; font-size: 14px;&quot;&gt;User(Student / Instructor / Admin / Super Admin)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="180" x="-860" y="255" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="React Frontend" vertex="1">
+          <mxGeometry height="60" width="120" x="-650" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=center;" value="&lt;div style=&quot;&quot;&gt;&lt;b&gt;&amp;nbsp;API Gateway&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&amp;nbsp;- Routes requests&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&amp;nbsp;- Authentication &amp;amp; Authorization&lt;/div&gt;&lt;div style=&quot;&quot;&gt;&amp;nbsp;- Request validation&lt;/div&gt;" vertex="1">
+          <mxGeometry height="100" width="180" x="-450" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-21" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=8;endSize=6;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points" />
+            <mxPoint x="-520" y="209.5" as="sourcePoint" />
+            <mxPoint x="-460" y="209.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-23" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="-690" y="209.5" />
+            </Array>
+            <mxPoint x="-730" y="209.5" as="sourcePoint" />
+            <mxPoint x="-660" y="209.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-24" edge="1" parent="1" source="M7g-1iEhbomUVrw3q_K4-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="M7g-1iEhbomUVrw3q_K4-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-25" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=center;" value="&lt;b&gt;Authentication services&lt;/b&gt;&lt;div style=&quot;&quot;&gt;- Handles login &amp;amp; registration&lt;/div&gt;&lt;div style=&quot;&quot;&gt;- Issues JWT tokens&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="170" x="-220" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-26" parent="1" style="rounded=0;whiteSpace=wrap;html=1;align=center;" value="&lt;b&gt;User Management Service&lt;/b&gt;&lt;div&gt;- Profiles &amp;amp; roles (Student / Instructor / Admin / Super Admin)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="170" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-27" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;Course Management Service&lt;/b&gt;&lt;div&gt;- Create / publish courses&lt;/div&gt;&lt;div&gt;- Manage course content&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="170" x="210" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-28" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;Enrollment Service&lt;/b&gt;&lt;div&gt;-&amp;nbsp;Handles student enrollments&lt;/div&gt;&lt;div&gt;-&amp;nbsp;Tracks enrollments per course&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="170" x="425" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-29" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;Progress Tracking Service&lt;/b&gt;&lt;div&gt;-&amp;nbsp;Tracks course progress&lt;/div&gt;&lt;div&gt;-&amp;nbsp;Stores progress data per user&lt;/div&gt;" vertex="1">
+          <mxGeometry height="70" width="170" x="640" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-30" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;b&gt;Notification Service&lt;/b&gt;&lt;div&gt;-&amp;nbsp;Sends email notifications for events&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="170" x="640" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-39" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;b&gt;MySQL&lt;/b&gt;&lt;div&gt;Stores: users, courses, enrollments, roles &amp;amp; permissions&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="150" x="150" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-40" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" value="&lt;b&gt;MongoDB&lt;/b&gt;&lt;div&gt;Stores: logs, progress tracking, activity events&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="140" x="420" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-44" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=8;endSize=4.69;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="-40" y="199.5" as="sourcePoint" />
+            <mxPoint x="-10" y="199.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-50" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="-260" y="199.5" as="sourcePoint" />
+            <mxPoint x="-220" y="199.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-51" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="170" y="194.5" as="sourcePoint" />
+            <mxPoint x="210" y="194.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-52" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="380" y="194.5" as="sourcePoint" />
+            <mxPoint x="420" y="194.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-53" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=10;endSize=3.67;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="600" y="199.5" as="sourcePoint" />
+            <mxPoint x="640" y="199.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-56" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;width=10;endSize=6.67;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="710" y="235" as="sourcePoint" />
+            <mxPoint x="710" y="275" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-60" edge="1" parent="1" source="M7g-1iEhbomUVrw3q_K4-25" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;exitX=0.641;exitY=1.05;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.145;entryY=0;entryDx=0;entryDy=4.35;entryPerimeter=0;" target="M7g-1iEhbomUVrw3q_K4-39" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="180" y="400" as="sourcePoint" />
+            <mxPoint x="230" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-61" edge="1" parent="1" source="M7g-1iEhbomUVrw3q_K4-26" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="180" y="400" as="sourcePoint" />
+            <mxPoint x="200" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-62" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="270" y="250" as="sourcePoint" />
+            <mxPoint x="220" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-63" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="470" y="240" as="sourcePoint" />
+            <mxPoint x="270" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-64" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="630" y="230" as="sourcePoint" />
+            <mxPoint x="470" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-65" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="630" y="310" as="sourcePoint" />
+            <mxPoint x="520" y="380" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="M7g-1iEhbomUVrw3q_K4-66" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Roles: Student, Instructor, Admin, Super Admin" vertex="1">
+          <mxGeometry height="60" width="120" x="-195" y="95" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
