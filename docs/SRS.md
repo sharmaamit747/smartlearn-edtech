@@ -65,9 +65,12 @@ The SmartLearn platform is composed of the following backend microservices:
 - Allows instructures to create and publish courses
 - Manages course content and metadata
 
-### 4. Enrollment service
+### 4. Enrollment & Access Control service
 - Handles course enrollment
 - Maintains enrollment records
+- Enrollment requires a valid subscription entitlement
+- The Enrollment Service verifies user access by consulting the Subscription Service
+- Payment processing is intentionally decoupled and will be introduced as a future enhancement
 
 ### 5. Progress tracking service
 - Tracks user progress within progress
@@ -153,3 +156,8 @@ Data sharing between services is handeled via APIs rather than direct Database a
 - Automated build, test, and deployment steps will be followed
 - Nginx will act as a reverse proxy for routing requests
 - Enviornment variables will be used for configuration management 
+
+## 11. Future Extensivility
+
+- Subscription-based access is implemented via a dedicated service to allow
+- future integration of payment gateways without impacting core platform services.
