@@ -11,7 +11,7 @@ SmartLearn is a scalable EdTech platform built using a microservices architectur
 - DevOps: Docker, GitHub Actions (planned)
 
 ## Architecture
-![High Level Architecture](docs/diagrams/SmartLearn-High-Level-Architecture.png)
+![High Level Architecture](diagrams/SmartLearn-High-Level-Architecture.png)
 
 ## Key Features
 - Role-based access (Student, Instructor, Admin, Super Admin)
