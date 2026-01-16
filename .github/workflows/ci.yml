@@ -10,6 +10,20 @@ jobs:
   backend:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: smartlearn_temp
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,6 +42,16 @@ jobs:
       - name: Copy .env
         working-directory: backend
         run: cp .env.example .env
+
+      - name: Configure DB for CI
+        working-directory: backend
+        run: |
+          php artisan env:set DB_CONNECTION=mysql
+          php artisan env:set DB_HOST=127.0.0.1
+          php artisan env:set DB_PORT=3306
+          php artisan env:set DB_DATABASE=smartlearn_temp
+          php artisan env:set DB_USERNAME=root
+          php artisan env:set DB_PASSWORD=root
 
       - name: Generate key
         working-directory: backend
