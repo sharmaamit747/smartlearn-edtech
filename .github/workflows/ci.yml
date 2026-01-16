@@ -24,6 +24,14 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: smartlearn_backend
+      DB_USERNAME: root
+      DB_PASSWORD: 
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -42,16 +50,6 @@ jobs:
       - name: Copy .env
         working-directory: backend
         run: cp .env.example .env
-
-      - name: Configure DB for CI
-        working-directory: backend
-        run: |
-          php artisan env:set DB_CONNECTION=mysql
-          php artisan env:set DB_HOST=127.0.0.1
-          php artisan env:set DB_PORT=3306
-          php artisan env:set DB_DATABASE=smartlearn_backend
-          php artisan env:set DB_USERNAME=root
-          php artisan env:set DB_PASSWORD=
 
       - name: Generate key
         working-directory: backend
