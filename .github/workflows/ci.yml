@@ -1,21 +1,42 @@
-- name: Install dependencies
-    run: |
-        cd backend
-        composer install --no-progress --prefer-dist
+name: Backend CI
 
-- name: Copy .env
-    run: |
-        cd backend 
-        cp .env.example .env
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [main]
 
-- name: Generate key
-    run: |
-        cd backend 
-        php artisan key:generate
+jobs:
+  backend:
+    runs-on: ubuntu-latest
 
-- name: Run tests
-    run: |
-        cd backend
-        php artisan test
-        
-    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: mbstring, pdo, pdo_mysql
+          coverage: none
+
+      - name: Install dependencies
+        working-directory: backend
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Copy .env
+        working-directory: backend
+        run: cp .env.example .env
+
+      - name: Generate key
+        working-directory: backend
+        run: php artisan key:generate
+
+      - name: Run migrations & seeders
+        working-directory: backend
+        run: php artisan migrate --seed
+
+      - name: Run tests
+        working-directory: backend
+        run: php artisan test
