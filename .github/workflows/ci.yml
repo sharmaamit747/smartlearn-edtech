@@ -49,9 +49,9 @@ jobs:
           php artisan env:set DB_CONNECTION=mysql
           php artisan env:set DB_HOST=127.0.0.1
           php artisan env:set DB_PORT=3306
-          php artisan env:set DB_DATABASE=smartlearn_temp
+          php artisan env:set DB_DATABASE=smartlearn_backend
           php artisan env:set DB_USERNAME=root
-          php artisan env:set DB_PASSWORD=root
+          php artisan env:set DB_PASSWORD=
 
       - name: Generate key
         working-directory: backend
