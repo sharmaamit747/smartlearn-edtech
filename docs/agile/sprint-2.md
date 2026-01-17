@@ -9,8 +9,9 @@ This sprint focuses on **real business logic** and **job-ready backend skills**.
 ---
 
 ## Sprint Duration
-Start Date: <today>  
-End Date: 23-01-2026
+Start Date: <tomorrow’s date>  
+End Date: <+5 days>
+
 
 ---
 
@@ -58,8 +59,8 @@ End Date: 23-01-2026
 ---
 
 ## Definition of Done (DoD)
-- All APIs protected by RBAC
-- CI pipeline green
+- All APIs secured with RBAC
+- CI green
 - Docker runs locally
 - Documentation updated
 - Code merged to main
@@ -69,20 +70,28 @@ End Date: 23-01-2026
 
 ## Daily Plan (High-Level)
 
-Day 1–2:
-- User CRUD APIs
-- RBAC checks
-- Course APIs
-- Ownership rules
+## Daily Plan (5-Day Sprint)
+
+Day 1:
+- User CRUD APIs (list, create)
+- RBAC enforcement
+
+Day 2:
+- User update, delete
+- Status enable/disable
+- Pagination & filters
 
 Day 3:
-- Enrollment workflows
+- Course CRUD APIs
+- Ownership validation
 
 Day 4:
+- Enrollment APIs
+- Instructor/Admin views
+
+Day 5:
 - Docker setup
-
-Day 4:
-- Cleanup, docs, review
+- Cleanup, docs, sprint review
 
 ---
 
