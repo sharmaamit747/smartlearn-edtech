@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Shared\RBAC\Policy;
+namespace App\Modules\Shared\RBAC\Policies;
 
 use App\Models\User;
 
