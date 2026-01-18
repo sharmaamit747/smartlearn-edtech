@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
 use App\Modules\User\Services\UserService;
+use App\Modules\User\Resources\UserResource;
 
 class UserController extends Controller
 {
@@ -13,9 +14,9 @@ class UserController extends Controller
         protected UserService $userService
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->userService->listUsers();
-        return ApiResponse::success($users);
+        $users = $this->userService->paginate($request);
+        return UserResource::collection($users);
     }
 }
