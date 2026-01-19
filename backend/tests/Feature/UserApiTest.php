@@ -72,4 +72,22 @@ class UserApiTest extends TestCase
             ->assertStatus(200)
             ->assertJsonPath('meta.per_page', 100);
     }
+
+    public function test_admin_can_create_user(): void
+    {
+        $adminRole = Role::where('slug', 'admin')->firstOrFail();
+        $admin = $this->createAdminUser();
+
+        $payload = [
+            'name' => 'Test User 1',
+            'email' => 'test2@example.com',
+            'password' => 'password123',
+        ];
+
+        $this->actingAsAdmin();
+
+        $this->postJson('/api/v1/users', $payload)
+            ->assertStatus(201)
+            ->assertJsonPath('data.email', 'test2@example.com');
+    }
 }

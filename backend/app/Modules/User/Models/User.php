@@ -15,6 +15,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, HasFactory;
 
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_INACTIVE = 'inactive';
+
     protected $table = 'users';
 
     protected $fillable = [
