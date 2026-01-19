@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $users = $this->userService->paginate($request);
+        $users = $this->userService->getUserList($request);
         return UserResource::collection($users);
     }
 }

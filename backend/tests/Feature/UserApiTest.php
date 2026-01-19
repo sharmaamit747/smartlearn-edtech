@@ -2,63 +2,74 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Modules\User\Models\User;
+use Tests\Traits\CreatesUsers;
+use Tests\Traits\CreatesPermissions;
+use Tests\Traits\ActsAsAdmin;
+
+use App\Modules\Shared\RBAC\Models\Role;
+use Illuminate\Support\Str;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 
 class UserApiTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     */
-    public function unauthenticated_user_cannot_list_users(): void
-    {
-        $response = $this->getJson('/api/json');
+    use CreatesUsers;
+    use CreatesPermissions;
+    use ActsAsAdmin;
 
-        $response->assertStatus(401);
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Permission
+        $permission = $this->createPermission('user.view');
+
+        // Role WITH slug (required)
+        $role = Role::firstOrCreate(
+            ['slug' => 'admin'],
+            ['name' => 'Admin']
+        );
+
+        // Attach permission to role
+        $role->permissions()->syncWithoutDetaching([$permission->id]);
     }
 
-    public function user_with_out_permission_cannot_list_users()
+    public function test_unauthenticated_user_cannot_list_users(): void
     {
-        $user = User::factory()->create();
+        $this->getJson('/api/v1/users/')
+            ->assertStatus(401);
+    }
 
-        $this->actingAs($user)
-            ->getJson('/api/users')
+    public function test_user_without_permission_cannot_list_users(): void
+    {
+        $user = $this->createUser();
+
+        Sanctum::actingAs($user);
+
+        $this->getJson('/api/v1/users/')
             ->assertStatus(403);
     }
 
-    public function admin_can_list_users()
+    public function test_admin_can_list_users(): void
     {
-        $admin = User::factory()->create();
-        $admin->assignRole('admin'); // or equivalent
+        $this->actingAsAdmin();
 
-        User::factory()->count(3)->create();
-
-        $this->actingAs($admin)
-            ->getJson('/api/users')
-            ->assertOk()
+        $this->getJson('/api/v1/users/')
+            ->assertStatus(200)
             ->assertJsonStructure([
                 'data',
-                'links',
                 'meta',
             ]);
     }
 
-    public function per_page_is_capped_at_100()
+    public function test_per_page_is_capped_at_100(): void
     {
-        $admin = User::factory()->create();
-        $admin->assignRole('admin');
+        $this->actingAsAdmin();
 
-        User::factory()->count(150)->create();
-
-        $response = $this->actingAs($admin)
-            ->getJson('/api/users?per_page=500');
-
-        $this->assertLessThanOrEqual(
-            100,
-            count($response->json('data'))
-        );
+        $this->getJson('/api/v1/users?per_page=500')
+            ->assertStatus(200)
+            ->assertJsonPath('meta.per_page', 100);
     }
 }
