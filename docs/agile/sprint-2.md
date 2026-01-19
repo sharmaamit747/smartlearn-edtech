@@ -72,9 +72,12 @@ End Date: <+5 days>
 
 ## Daily Plan (5-Day Sprint)
 
-Day 1:
-- User CRUD APIs (list, create)
-- RBAC enforcement
+### Day 1 – User List & Create APIs
+- Implemented GET /api/v1/users with pagination
+- Implemented POST /api/v1/users with RBAC enforcement
+- Added FormRequest validation and service layer
+- Added feature & unit tests
+- CI pipeline validated (green)
 
 Day 2:
 - User update, delete
