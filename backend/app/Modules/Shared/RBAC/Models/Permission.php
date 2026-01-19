@@ -3,13 +3,25 @@
 namespace App\Modules\Shared\RBAC\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Permission extends Model
 {
-    protected $fillable = ['name', 'slug'];
+    use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'slug',
+    ];
+
+    // permissions ↔ permission_role ↔ roles
     public function roles()
     {
-        $this->belongsToMany(Role::class);
+        return $this->belongsToMany(
+            Role::class,
+            'permission_role',
+            'permission_id',
+            'role_id'
+        );
     }
 }
