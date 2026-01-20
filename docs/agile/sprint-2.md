@@ -98,7 +98,23 @@ Day 5:
 
 ---
 
+## Sprint-2 Day-1 and Day-2 — User CRUD (RBAC-Enforced)
+
+### Completed
+- Implemented GET /users with pagination & limits
+- Implemented POST /users (admin only)
+- Implemented PUT /users/{id} (admin)
+- Implemented PUT /users/{id}/self (user)
+- Implemented DELETE /users/{id} (soft delete, admin only)
+- RBAC enforced via permission middleware
+- Feature & unit tests added
+- CI verified green
+
+### Technical Decisions
+- Soft deletes used instead of hard deletes
+- Self-update requires explicit permission (user.update.self)
+- RBAC seeded centrally for test stability
+- Helpers kept side-effect free
+
 ## Sprint Status
-Status: Planned  
-Release Target: v1.1.0  
-Branch Strategy: feature → develop → main
+✔ Day-2 completed and stable

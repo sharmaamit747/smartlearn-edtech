@@ -37,3 +37,21 @@ Create a new user.
   "email": "john@example.com",
   "password": "********"
 }
+```
+
+## API Endpoints
+
+```table
+| Method | Endpoint | Permission |
+|------|--------|-----------|
+| GET | /api/v1/users | user.view |
+| POST | /api/v1/users | user.create |
+| PUT | /api/v1/users/{id} | user.update |
+| PUT | /api/v1/users/{id}/self | user.update.self |
+| DELETE | /api/v1/users/{id} | user.delete |
+```
+
+## Notes
+- Users are soft deleted
+- Self-update does not allow email/status changes
+- RBAC is mandatory for all endpoints
