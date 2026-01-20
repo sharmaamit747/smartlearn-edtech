@@ -107,4 +107,51 @@ class UserApiTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.name', 'My Name');
     }
+
+    public function test_admin_can_delete_user()
+    {
+        $this->actingAsAdmin();
+        $user = $this->createUser();
+
+        $this->deleteJson("/api/v1/users/{$user->id}")
+            ->assertOk()
+            ->assertJson([
+                'message' => 'User deleted successfully',
+            ]);
+
+        $this->assertSoftDeleted('users', [
+            'id' => $user->id,
+        ]);
+    }
+
+    public function test_admin_cannot_delete_self()
+    {
+        $admin = $this->createUserWithRole('admin');
+        $this->actingAs($admin);
+
+        $this->deleteJson("/api/v1/users/{$admin->id}")
+            ->assertStatus(403);
+    }
+
+    public function test_student_cannot_delete_user()
+    {
+        $user  = $this->createUserWithRole('student');
+        $other = $this->createUser();
+
+        $this->actingAs($user);
+
+        $this->deleteJson("/api/v1/users/{$other->id}")
+            ->assertStatus(403);
+    }
+
+    public function test_instructor_cannot_delete_user()
+    {
+        $user  = $this->createUserWithRole('instructor');
+        $other = $this->createUser();
+
+        $this->actingAs($user);
+
+        $this->deleteJson("/api/v1/users/{$other->id}")
+            ->assertStatus(403);
+    }
 }

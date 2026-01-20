@@ -37,4 +37,14 @@ class UserServiceTest extends TestCase
 
         $this->assertEquals('Changed', $user->fresh()->name);
     }
+
+    public function test_delete_soft_deletes_user()
+    {
+        $user = \App\Modules\User\Models\User::factory()->create();
+
+        $service = app(\App\Modules\User\Services\UserService::class);
+        $service->delete($user);
+
+        $this->assertSoftDeleted($user);
+    }
 }

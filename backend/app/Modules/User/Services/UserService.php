@@ -45,4 +45,9 @@ class UserService
 
         return $user->refresh();
     }
+
+    public function delete(User $user): void
+    {
+        $user->delete();
+    }
 }
