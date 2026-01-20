@@ -55,6 +55,18 @@ Stored in the roles table.
 ### Permissions
 Permissions represent atomic system actions.
 
+### Role → Permission Mapping
+
+admin:
+- user.view
+- user.create
+- user.update
+- user.delete
+- user.update.self
+
+user:
+- user.update.self
+
 #### Naming Convention
 ```text
 <resource>.<action>

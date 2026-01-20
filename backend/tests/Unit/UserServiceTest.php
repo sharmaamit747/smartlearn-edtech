@@ -27,4 +27,24 @@ class UserServiceTest extends TestCase
         $this->assertNotEquals('secret123', $user->password);
         $this->assertTrue(Hash::check('secret123', $user->password));
     }
+
+    public function test_admin_update_changes_user_fields()
+    {
+        $user = \App\Modules\User\Models\User::factory()->create();
+
+        $service = app(\App\Modules\User\Services\UserService::class);
+        $service->update($user, ['name' => 'Changed']);
+
+        $this->assertEquals('Changed', $user->fresh()->name);
+    }
+
+    public function test_delete_soft_deletes_user()
+    {
+        $user = \App\Modules\User\Models\User::factory()->create();
+
+        $service = app(\App\Modules\User\Services\UserService::class);
+        $service->delete($user);
+
+        $this->assertSoftDeleted($user);
+    }
 }

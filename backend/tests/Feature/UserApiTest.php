@@ -4,36 +4,17 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Tests\Traits\CreatesUsers;
-use Tests\Traits\CreatesPermissions;
 use Tests\Traits\ActsAsAdmin;
-
-use App\Modules\Shared\RBAC\Models\Role;
-use Illuminate\Support\Str;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 
 class UserApiTest extends TestCase
 {
-    use RefreshDatabase;
     use CreatesUsers;
-    use CreatesPermissions;
     use ActsAsAdmin;
 
     protected function setUp(): void
     {
         parent::setUp();
-
-        // Permission
-        $permission = $this->createPermission('user.view');
-
-        // Role WITH slug (required)
-        $role = Role::firstOrCreate(
-            ['slug' => 'admin'],
-            ['name' => 'Admin']
-        );
-
-        // Attach permission to role
-        $role->permissions()->syncWithoutDetaching([$permission->id]);
     }
 
     public function test_unauthenticated_user_cannot_list_users(): void
@@ -75,8 +56,7 @@ class UserApiTest extends TestCase
 
     public function test_admin_can_create_user(): void
     {
-        $adminRole = Role::where('slug', 'admin')->firstOrFail();
-        $admin = $this->createAdminUser();
+        $this->actingAsAdmin();
 
         $payload = [
             'name' => 'Test User 1',
@@ -84,10 +64,94 @@ class UserApiTest extends TestCase
             'password' => 'password123',
         ];
 
-        $this->actingAsAdmin();
-
         $this->postJson('/api/v1/users', $payload)
             ->assertStatus(201)
             ->assertJsonPath('data.email', 'test2@example.com');
+    }
+
+
+    public function test_admin_can_update_user()
+    {
+        $this->actingAsAdmin();
+        $user = $this->createUser();
+
+        $this->putJson("/api/v1/users/{$user->id}", [
+            'name' => 'Updated Name',
+        ])
+            ->assertOk()
+            ->assertJsonPath('data.name', 'Updated Name');
+    }
+
+
+
+    public function test_student_can_update_self()
+    {
+        $user = $this->createUserWithRole('student');
+
+        $this->actingAs($user)
+            ->putJson("/api/v1/users/{$user->id}/self", [
+                'name' => 'My Name',
+            ])
+            ->assertOk()
+            ->assertJsonPath('data.name', 'My Name');
+    }
+
+    public function test_instructor_can_update_self()
+    {
+        $user = $this->createUserWithRole('instructor');
+
+        $this->actingAs($user)
+            ->putJson("/api/v1/users/{$user->id}/self", [
+                'name' => 'My Name',
+            ])
+            ->assertOk()
+            ->assertJsonPath('data.name', 'My Name');
+    }
+
+    public function test_admin_can_delete_user()
+    {
+        $this->actingAsAdmin();
+        $user = $this->createUser();
+
+        $this->deleteJson("/api/v1/users/{$user->id}")
+            ->assertOk()
+            ->assertJson([
+                'message' => 'User deleted successfully',
+            ]);
+
+        $this->assertSoftDeleted('users', [
+            'id' => $user->id,
+        ]);
+    }
+
+    public function test_admin_cannot_delete_self()
+    {
+        $admin = $this->createUserWithRole('admin');
+        $this->actingAs($admin);
+
+        $this->deleteJson("/api/v1/users/{$admin->id}")
+            ->assertStatus(403);
+    }
+
+    public function test_student_cannot_delete_user()
+    {
+        $user  = $this->createUserWithRole('student');
+        $other = $this->createUser();
+
+        $this->actingAs($user);
+
+        $this->deleteJson("/api/v1/users/{$other->id}")
+            ->assertStatus(403);
+    }
+
+    public function test_instructor_cannot_delete_user()
+    {
+        $user  = $this->createUserWithRole('instructor');
+        $other = $this->createUser();
+
+        $this->actingAs($user);
+
+        $this->deleteJson("/api/v1/users/{$other->id}")
+            ->assertStatus(403);
     }
 }

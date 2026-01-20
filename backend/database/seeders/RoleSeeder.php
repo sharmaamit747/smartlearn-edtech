@@ -2,22 +2,28 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Modules\Shared\RBAC\Models\Role;
 use App\Modules\Shared\RBAC\Models\Permission;
 
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        // Roles
         $admin = Role::firstOrCreate(['slug' => 'admin'], ['name' => 'Admin']);
+        $student = Role::firstOrCreate(['slug' => 'student'], ['name' => 'Student']);
+        $instructor = Role::firstOrCreate(['slug' => 'instructor'], ['name' => 'Instructor']);
 
-        $admin->permissions()->sync(
-            Permission::pluck('id')
-        );
+        // Admin → all permissions (if any exist)
+        $admin->permissions()->sync(Permission::pluck('id'));
+
+        // Self update permission (SAFE)
+        $selfUpdatePermission = Permission::where('slug', 'user.update.self')->first();
+
+        if ($selfUpdatePermission) {
+            $student->permissions()->syncWithoutDetaching([$selfUpdatePermission->id]);
+            $instructor->permissions()->syncWithoutDetaching([$selfUpdatePermission->id]);
+        }
     }
 }

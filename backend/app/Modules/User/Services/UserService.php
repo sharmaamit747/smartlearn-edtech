@@ -30,4 +30,24 @@ class UserService
             'status' => User::STATUS_ACTIVE,
         ]);
     }
+
+    public function update(User $user, array $data)
+    {
+        $user->update($data);
+        return $user->refresh();
+    }
+
+    public function updateSelf(User $user, array $data): User
+    {
+        $user->update([
+            'name' => $data['name'],
+        ]);
+
+        return $user->refresh();
+    }
+
+    public function delete(User $user): void
+    {
+        $user->delete();
+    }
 }
