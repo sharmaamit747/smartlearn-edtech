@@ -12,6 +12,7 @@ use App\Modules\User\Requests\CreateUserRequest;
 use App\Modules\User\Requests\UpdateSelfUserRequest;
 use App\Modules\User\Requests\UpdateUserRequest;
 use App\Modules\User\Models\User;
+use App\Modules\Shared\Exceptions\ApiException;
 
 
 class UserController extends Controller
@@ -45,7 +46,10 @@ class UserController extends Controller
     public function updateSelf(UpdateSelfUserRequest $request, User $user)
     {
         if ($request->user()->id !== $user->id) {
-            abort(403);
+            throw new ApiException(
+                'You are not allowed to update this info',
+                403
+            );;
         }
 
         $updated = $this->userService->updateSelf($user, $request->validated());
@@ -56,7 +60,10 @@ class UserController extends Controller
     public function destroy(User $user): JsonResponse
     {
         if (auth()->id() === $user->id) {
-            abort(403, 'You cannot delete your own account');
+            throw new ApiException(
+                'You are not allowed to delete your own account',
+                403
+            );
         }
 
         $this->userService->delete($user);
