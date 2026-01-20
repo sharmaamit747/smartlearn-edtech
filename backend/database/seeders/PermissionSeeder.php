@@ -18,6 +18,7 @@ class PermissionSeeder extends Seeder
             'user.create',
             'user.update',
             'user.delete',
+            'user.update.self',
         ];
 
         foreach ($permissions as $perm) {

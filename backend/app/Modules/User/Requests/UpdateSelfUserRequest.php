@@ -4,7 +4,7 @@ namespace App\Modules\User\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserRequest extends FormRequest
+class UpdateSelfUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,6 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name'   => ['sometimes', 'string', 'max:255'],
-            'email'  => ['sometimes', 'email', 'unique:users,email,' . $this->user->id],
-            'status' => ['sometimes', 'in:1,0'],
         ];
     }
 }

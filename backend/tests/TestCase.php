@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
@@ -14,8 +13,10 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
     {
         parent::setUp();
 
-        // Seed RBAC data for tests
-        $this->seed(\Database\Seeders\RoleSeeder::class);
+        // 🔒 REQUIRED: seed RBAC for every test database
         $this->seed(\Database\Seeders\PermissionSeeder::class);
+        $this->seed(\Database\Seeders\RoleSeeder::class);
+        $this->seed(\Database\Seeders\UserSeeder::class);
+        $this->seed(\Database\Seeders\RoleUserSeeder::class);
     }
 }

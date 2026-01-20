@@ -8,6 +8,9 @@ use App\Helpers\ApiResponse;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Resources\UserResource;
 use App\Modules\User\Requests\CreateUserRequest;
+use App\Modules\User\Requests\UpdateSelfUserRequest;
+use App\Modules\User\Requests\UpdateUserRequest;
+use App\Modules\User\Models\User;
 
 class UserController extends Controller
 {
@@ -28,5 +31,23 @@ class UserController extends Controller
         return (new UserResource($user))
             ->response()
             ->setStatusCode(201);
+    }
+
+    public function update(UpdateUserRequest $request, User $user)
+    {
+        $updated = $this->userService->update($user, $request->validated());
+
+        return new UserResource($updated);
+    }
+
+    public function updateSelf(UpdateSelfUserRequest $request, User $user)
+    {
+        if ($request->user()->id !== $user->id) {
+            abort(403);
+        }
+
+        $updated = $this->userService->updateSelf($user, $request->validated());
+
+        return new UserResource($updated);
     }
 }

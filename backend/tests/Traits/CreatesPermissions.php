@@ -3,17 +3,28 @@
 namespace Tests\Traits;
 
 use App\Modules\Shared\RBAC\Models\Permission;
-use Illuminate\Support\Str;
 
 trait CreatesPermissions
 {
-    protected function createPermission(string $slug, ?string $name = null): Permission
+    protected function createPermission(string $slug): Permission
     {
         return Permission::firstOrCreate(
             ['slug' => $slug],
-            [
-                'name' => $name ?? Str::headline(str_replace('.', ' ', $slug)),
-            ]
+            ['name' => ucwords(str_replace('.', ' ', $slug))]
         );
+    }
+
+    protected function seedUserPermissions(): void
+    {
+        $permissions = [
+            'user.view',
+            'user.create',
+            'user.update',
+            'user.update.self',
+        ];
+
+        foreach ($permissions as $permission) {
+            $this->createPermission($permission);
+        }
     }
 }
