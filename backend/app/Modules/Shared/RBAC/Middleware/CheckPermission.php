@@ -2,11 +2,10 @@
 
 namespace App\Modules\Shared\RBAC\Middleware;
 
-use App\Modules\Shared\Exceptions\ApiException;
-use Symfony\Component\HttpFoundation\Response;
-
 use Closure;
 use Illuminate\Http\Request;
+use App\Modules\Shared\Exceptions\ApiException;
+use Symfony\Component\HttpFoundation\Response;
 
 class CheckPermission
 {
@@ -15,9 +14,9 @@ class CheckPermission
         $user = $request->user();
 
         if (! $user || ! $user->hasPermission($permission)) {
-            throw new ApiException(
+            throw new \App\Modules\Shared\Exceptions\ApiException(
                 'You are not allowed to perform this action',
-                Response::HTTP_FORBIDDEN
+                403
             );
         }
 
