@@ -2,23 +2,15 @@
 
 namespace App\Modules\Shared\Exceptions;
 
-use Exception;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class ApiException extends Exception
+class ApiException extends HttpException
 {
-    protected int $status;
-
     public function __construct(
         string $message,
-        int $status = Response::HTTP_BAD_REQUEST
+        int $status = 400,
+        array $headers = []
     ) {
-        parent::__construct($message);
-        $this->status = $status;
-    }
-
-    public function getStatus(): int
-    {
-        return $this->status;
+        parent::__construct($status, $message, null, $headers);
     }
 }
