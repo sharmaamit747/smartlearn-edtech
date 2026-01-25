@@ -12,14 +12,21 @@ class CourseRepository implements CourseRepositoryInterface
     {
         $query = Course::query();
 
+        // 🔓 Published only
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
 
-        if (!empty($filters['created_by'])) {
-            $query->where('created_by', $filters['created_by']);
+        // 👨‍🏫 Instructor visibility:
+        // own courses (any status) OR published
+        if (!empty($filters['visible_to_instructor'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('created_by', $filters['visible_to_instructor'])
+                    ->orWhere('status', Course::STATUS_PUBLISHED);
+            });
         }
 
+        // 🔍 Search
         if (!empty($filters['search'])) {
             $query->where('title', 'like', '%' . $filters['search'] . '%');
         }
