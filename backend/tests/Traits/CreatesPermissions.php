@@ -22,6 +22,10 @@ trait CreatesPermissions
             'user.update',
             'user.update.self',
             'user.delete',
+            'course.create',
+            'course.update',
+            'course.delete',
+            'course.view',
         ];
 
         foreach ($permissions as $permission) {

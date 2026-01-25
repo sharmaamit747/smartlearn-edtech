@@ -38,7 +38,9 @@ class CourseController extends Controller
             ])
         );
 
-        return new CourseResource($course);
+        return (new CourseResource($course))
+            ->response()
+            ->setStatusCode(201);
     }
 
     public function update(Request $request, Course $course)

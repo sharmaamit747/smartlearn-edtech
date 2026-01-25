@@ -4,11 +4,18 @@ namespace App\Modules\Course\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Modules\User\Models\User;
+use Database\Factories\CourseFactory;
 
 class Course extends Model
 {
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
+
+    protected static function newFactory()
+    {
+        return CourseFactory::new();
+    }
 
     protected $fillable = [
         'title',

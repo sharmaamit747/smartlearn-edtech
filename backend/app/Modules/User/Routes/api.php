@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Modules\User\Controllers\UserController;
 
-Route::middleware(['auth:sanctum'])
+Route::middleware(['auth:sanctum', 'ensure.active'])
     ->prefix('users')
     ->group(function () {
         Route::get('/', [UserController::class, 'index'])->middleware('permission:user.view');
