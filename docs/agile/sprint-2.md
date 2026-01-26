@@ -118,3 +118,10 @@ Day 5:
 
 ## Sprint Status
 ✔ Day-2 completed and stable
+
+### Sprint 2 – Course Module
+- Course CRUD API
+- RBAC-based permissions
+- Policies + middleware
+- Feature tests (green)
+- Public vs private listing logic
