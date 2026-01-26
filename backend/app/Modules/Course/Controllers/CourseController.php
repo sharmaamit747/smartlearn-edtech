@@ -4,39 +4,49 @@ namespace App\Modules\Course\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Modules\Course\Models\Course;
 use App\Modules\Course\Services\CourseService;
 use App\Modules\Course\Resources\CourseResource;
 
 class CourseController extends Controller
 {
+    use AuthorizesRequests;
     public function __construct(
         protected CourseService $courseService
     ) {}
 
     public function index(Request $request)
     {
-        $courses = $this->courseService->list($request);
+        $perPage = min((int) $request->get('per_page', 10), 100);
 
-        return response()->json([
-            'data' => CourseResource::collection($courses),
-            'meta' => [
-                'per_page' => $courses->perPage(),
-                'total' => $courses->total(),
-            ],
-        ]);
+        $paginator = $this->courseService
+            ->list($request)
+            ->paginate($perPage);
+
+        return CourseResource::collection($paginator)
+            ->additional([
+                'meta' => [
+                    'per_page' => $paginator->perPage(),
+                    'total' => $paginator->total(),
+                ]
+            ]);
     }
 
     public function store(Request $request)
     {
         $this->authorize('create', Course::class);
 
-        $course = $this->courseService->create(
-            $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'nullable|string',
-            ])
-        );
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $course = $this->courseService->create([
+            ...$data,
+            'created_by' => $request->user()->id,
+        ]);
+
 
         return (new CourseResource($course))
             ->response()

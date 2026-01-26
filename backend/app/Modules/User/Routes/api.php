@@ -11,4 +11,5 @@ Route::middleware(['auth:sanctum', 'ensure.active'])
         Route::put('/{user}', [UserController::class, 'update'])->middleware('permission:user.update');
         Route::put('/{user}/self', [UserController::class, 'updateSelf'])->middleware('permission:user.update.self');
         Route::delete('/{user}', [UserController::class, 'destroy'])->middleware('permission:user.delete');
+        Route::put('/{user}/status', [UserController::class, 'updateStatus'])->middleware('permission:user.update.status');
     });

@@ -14,30 +14,31 @@ class CourseService
 
     public function list(Request $request)
     {
-        $user = auth()->user();
+        $user = $request->user();
 
-        $filters = $request->only(['status', 'search']);
+        $query = Course::query();
 
-        // 🔓 Guest OR Student → published only
+        // Guest or student → published only
         if (!$user || $user->hasRole('student')) {
-            $filters['status'] = Course::STATUS_PUBLISHED;
+            return $query->where('status', Course::STATUS_PUBLISHED);
         }
 
-        // 👨‍🏫 Instructor → own + published
-        if ($user && $user->hasRole('instructor')) {
-            $filters['visible_to_instructor'] = $user->id;
+        // Instructor → own + published
+        if ($user->hasRole('instructor')) {
+            return $query->where(function ($q) use ($user) {
+                $q->where('status', Course::STATUS_PUBLISHED)
+                    ->orWhere('created_by', $user->id);
+            });
         }
 
-        // 👑 Admin → no restriction
-        if ($user && $user->hasRole('admin')) {
-            // no filters added
+        // Admin → all
+        if ($user->hasRole('admin')) {
+            return $query;
         }
 
-        return $this->courseRepository->paginate(
-            filters: $filters,
-            perPage: min($request->get('per_page', 15), 100)
-        );
+        return $query->where('status', Course::STATUS_PUBLISHED);
     }
+
 
     public function create(array $data): Course
     {

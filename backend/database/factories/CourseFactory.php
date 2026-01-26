@@ -15,7 +15,7 @@ class CourseFactory extends Factory
         return [
             'title' => $this->faker->sentence(4),
             'description' => $this->faker->paragraph(),
-            'status' => Course::STATUS_DRAFT,
+            'status' => Course::STATUS_PUBLISHED,
             'created_by' => User::factory(),
         ];
     }

@@ -6,17 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\ApiResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Modules\User\Services\UserService;
 use App\Modules\User\Resources\UserResource;
 use App\Modules\User\Requests\CreateUserRequest;
 use App\Modules\User\Requests\UpdateSelfUserRequest;
 use App\Modules\User\Requests\UpdateUserRequest;
+use App\Modules\User\Requests\UpdateUserStatusRequest;
 use App\Modules\User\Models\User;
 use App\Modules\Shared\Exceptions\ApiException;
 
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
+
     public function __construct(
         protected UserService $userService
     ) {}
@@ -71,5 +75,21 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User deleted successfully',
         ], 200);
+    }
+
+    public function updateStatus(
+        UpdateUserStatusRequest $request,
+        User $user
+    ) {
+        $this->authorize('updateStatus', $user);
+
+        $updated = $this->userService->updateStatus(
+            $user,
+            $request->validated('status')
+        );
+
+        return response()->json([
+            'data' => $updated,
+        ]);
     }
 }

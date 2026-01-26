@@ -16,8 +16,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, HasFactory, SoftDeletes;
 
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
+    public const STATUS_ACTIVE = 'ACTIVE';
+    public const STATUS_INACTIVE = 'INACTIVE';
+    public const STATUS_BLOCKED = 'BLOCKED';
 
     protected $table = 'users';
 
@@ -48,6 +49,11 @@ class User extends Authenticatable
             'user_id',
             'role_id'
         );
+    }
+
+    public function hasRole(string $slug): bool
+    {
+        return $this->roles()->where('slug', $slug)->exists();
     }
 
     // roles ↔ permission_role ↔ permissions (via roles)

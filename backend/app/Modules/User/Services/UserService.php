@@ -50,4 +50,11 @@ class UserService
     {
         $user->delete();
     }
+
+    public function updateStatus(User $user, string $status): User
+    {
+        $user->update(['status' => $status]);
+
+        return $user;
+    }
 }

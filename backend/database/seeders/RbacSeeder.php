@@ -19,6 +19,10 @@ class RbacSeeder extends Seeder
             'course.update',
             'course.delete',
             'course.view',
+            'course.view.all',
+            'course.create',
+            'course.update.any',
+            'course.delete.any',
         ];
 
         foreach ($permissions as $perm) {
@@ -34,12 +38,12 @@ class RbacSeeder extends Seeder
 
         // Admin → all
         $admin->permissions()->syncWithoutDetaching(
-            Permission::whereIn('name', $permissions)->pluck('id')
+            Permission::whereIn('slug', $permissions)->pluck('id')
         );
 
         // Instructor → create/update/view
         $instructor->permissions()->syncWithoutDetaching(
-            Permission::whereIn('name', [
+            Permission::whereIn('slug', [
                 'course.create',
                 'course.update',
                 'course.view',
@@ -48,7 +52,7 @@ class RbacSeeder extends Seeder
 
         // Student → view only
         $student->permissions()->syncWithoutDetaching(
-            Permission::where('name', 'course.view')->pluck('id')
+            Permission::where('slug', 'course.view')->pluck('id')
         );
     }
 }

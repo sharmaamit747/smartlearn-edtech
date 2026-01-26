@@ -18,5 +18,6 @@ abstract class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $this->seed(\Database\Seeders\RoleSeeder::class);
         $this->seed(\Database\Seeders\UserSeeder::class);
         $this->seed(\Database\Seeders\RoleUserSeeder::class);
+        $this->seed(\Database\Seeders\RbacSeeder::class);
     }
 }
