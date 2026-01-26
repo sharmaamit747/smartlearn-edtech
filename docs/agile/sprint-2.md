@@ -78,6 +78,9 @@ End Date: <+5 days>
 - Added FormRequest validation and service layer
 - Added feature & unit tests
 - CI pipeline validated (green)
+Day 1:
+- User CRUD APIs (list, create)
+- RBAC enforcement
 
 Day 2:
 - User update, delete
@@ -118,3 +121,7 @@ Day 5:
 
 ## Sprint Status
 ✔ Day-2 completed and stable
+## Sprint Status
+Status: Planned  
+Release Target: v1.1.0  
+Branch Strategy: feature → develop → main
