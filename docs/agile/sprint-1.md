@@ -1,5 +1,11 @@
 # Sprint 1 – Architecture & Backend Foundation
 
+## Sprint Status
+Status: Completed  
+Release Tag: v1.0.0  
+Branch: main  
+CI Status: Green
+
 ## Sprint Goal
 Establish SmartLearn backend foundation with modular Laravel architecture,
 API standards, CI pipeline, and system diagrams.

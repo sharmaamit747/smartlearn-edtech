@@ -8,6 +8,9 @@ use App\Modules\Auth\Requests\RegisterRequest;
 use App\Modules\Auth\Services\AuthService;
 use App\Modules\Shared\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
@@ -16,11 +19,32 @@ class AuthController extends Controller
         protected AuthService $authService
     ) {}
 
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid credentials'
+            ], 401);
+        }
+
+        $user = Auth::user();
+
+        $token = $user->createToken('api-token')->plainTextToken;
+
         return response()->json([
             'success' => true,
-            'message' => 'Login endpoint placeholder'
+            'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email
+            ]
         ]);
     }
 

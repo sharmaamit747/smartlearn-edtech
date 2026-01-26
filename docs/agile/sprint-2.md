@@ -72,6 +72,12 @@ End Date: <+5 days>
 
 ## Daily Plan (5-Day Sprint)
 
+### Day 1 – User List & Create APIs
+- Implemented GET /api/v1/users with pagination
+- Implemented POST /api/v1/users with RBAC enforcement
+- Added FormRequest validation and service layer
+- Added feature & unit tests
+- CI pipeline validated (green)
 Day 1:
 - User CRUD APIs (list, create)
 - RBAC enforcement
@@ -95,6 +101,26 @@ Day 5:
 
 ---
 
+## Sprint-2 Day-1 and Day-2 — User CRUD (RBAC-Enforced)
+
+### Completed
+- Implemented GET /users with pagination & limits
+- Implemented POST /users (admin only)
+- Implemented PUT /users/{id} (admin)
+- Implemented PUT /users/{id}/self (user)
+- Implemented DELETE /users/{id} (soft delete, admin only)
+- RBAC enforced via permission middleware
+- Feature & unit tests added
+- CI verified green
+
+### Technical Decisions
+- Soft deletes used instead of hard deletes
+- Self-update requires explicit permission (user.update.self)
+- RBAC seeded centrally for test stability
+- Helpers kept side-effect free
+
+## Sprint Status
+✔ Day-2 completed and stable
 ## Sprint Status
 Status: Planned  
 Release Target: v1.1.0  
