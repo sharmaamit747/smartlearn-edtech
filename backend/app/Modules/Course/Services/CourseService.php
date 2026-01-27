@@ -2,6 +2,7 @@
 
 namespace App\Modules\Course\Services;
 
+use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
 use App\Modules\Course\Models\Course;
 use App\Modules\Course\Repositories\Contracts\CourseRepositoryInterface;
@@ -56,5 +57,21 @@ class CourseService
     public function delete(Course $course): void
     {
         $this->courseRepository->delete($course);
+    }
+
+    public function publish(Course $course): Course
+    {
+        if ($course->status !== Course::STATUS_DRAFT) {
+            throw ValidationException::withMessages([
+                'status' => 'Only draft courses can be published',
+            ]);
+        }
+
+        $course->update([
+            'status' => Course::STATUS_PUBLISHED,
+            'published_at' => now(),
+        ]);
+
+        return $course;
     }
 }
