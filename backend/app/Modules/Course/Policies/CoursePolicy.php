@@ -42,7 +42,6 @@ class CoursePolicy
         }
 
         return $user->hasPermission('course.publish')
-            && $course->created_by === $user->id
-            && $course->status === Course::STATUS_DRAFT;
+            && $course->created_by === $user->id;
     }
 }
