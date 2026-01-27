@@ -1,0 +1,786 @@
+{
+  "info": {
+    "_postman_id": "648edf27-8845-4337-9c00-33945499edd0",
+    "name": "SmartLearn Local",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "item": [
+            {
+              "name": "Login",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "id": "bba0639e-db8e-4745-8fc1-be5294976c8e",
+                    "exec": [
+                      "const json = pm.response.json();",
+                      "",
+                      "if (json.token) {",
+                      "    pm.collectionVariables.set(\"token\", json.token);",
+                      "    console.log(\"Token saved to collection\");",
+                      "} else {",
+                      "    console.warn(\"Token not found in response\");",
+                      "}",
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                },
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "id": "ea2fe65b-a672-4ece-b70a-bd27c95c9267",
+                    "exec": [
+                      ""
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "id": "4c582d17-f552-469a-b1cc-5f26d7378ab9",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"email\":\"admin@example.com\",\"password\":\"password\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "auth",
+                    "login"
+                  ]
+                },
+                "description": "Generated from cURL: curl --location '{{base_url}}/api/{{api_version}}/auth/login' --header 'Accept: application/json' --header 'Content-Type: application/json' --data-raw '{\"email\":\"admin@example.com\",\"password\":\"password\"}'"
+              },
+              "response": [
+                {
+                  "id": "19fafc5a-8642-4e99-b241-99f3b021605f",
+                  "name": "Login",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"email\":\"test@example.com\",\"password\":\"password\"}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/{{api_version}}/auth/login",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "{{api_version}}",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Host",
+                      "value": "127.0.0.1:8000"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "close"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.2.12"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Sun, 18 Jan 2026 20:28:17 GMT"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"success\": true,\n    \"token\": \"3|x3doZ33Kdx9Hnqz3b8ecqXgvNyUETVkmh6TiJDPB81034547\",\n    \"user\": {\n        \"id\": 1,\n        \"name\": \"Test User\",\n        \"email\": \"test@example.com\"\n    }\n}"
+                }
+              ]
+            }
+          ],
+          "id": "8960fdcb-ec3e-412d-bee7-b82a7332420c"
+        },
+        {
+          "name": "Register",
+          "item": [],
+          "id": "dc03a982-c352-4928-a6af-582013191dc8"
+        }
+      ],
+      "id": "380908cc-406d-48aa-822a-e60ced4ae978"
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get Users",
+          "item": [
+            {
+              "name": "Get Users",
+              "id": "dd8327e4-f6d5-41b1-896b-4576d563f819",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/users",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "users"
+                  ]
+                },
+                "description": "Generated from cURL: curl --location '{{base_url}}/api/{{api_version}}/users' --header 'Accept: application/json' --header 'Authorization: Bearer {{token}}'"
+              },
+              "response": []
+            }
+          ],
+          "id": "b8362fa7-4220-4ab9-84f0-5d35542814d1"
+        },
+        {
+          "name": "Create User",
+          "item": [
+            {
+              "name": "Create User",
+              "id": "ee7e9bf9-c82f-4e9b-aafc-ed73af3f39a8",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"Demo User3\", \"email\": \"demo3@example.com\", \"password\": \"password123\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/users",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "users"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "c72d7fd7-2b92-42cc-b7e2-9dd8769f8107",
+          "auth": {
+            "type": "bearer"
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "eb4a28ad-798d-4994-a863-854d85698fe1",
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  ""
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "id": "557964af-38bd-4cfc-84e7-3a306e434f68",
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  ""
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update User",
+          "item": [
+            {
+              "name": "Update User",
+              "id": "f10e42e9-07bb-41fd-9970-91a055e8db06",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"Updated Student User\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/users/2",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "users",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update User Self",
+              "id": "bc7a76d2-77f7-421a-9235-4f56c30dbfa6",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"name\": \"Updated Student User self\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/users/2/self",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "users",
+                    "2",
+                    "self"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "8e7a241c-9a79-4026-8b85-bc8a21214673"
+        },
+        {
+          "name": "Delete User",
+          "item": [
+            {
+              "name": "Delete User",
+              "id": "a920caf3-adb4-4b03-9da3-8066a8af14a5",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/users/2",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "users",
+                    "2"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "ce0d3e86-cbb3-4411-8a50-14d24a335904"
+        },
+        {
+          "name": "Update Status",
+          "item": [
+            {
+              "name": "Update Status",
+              "id": "106267c2-fa88-43ed-a7a7-e4166f2ffa5c",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"status\": 2}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/users/2/status",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "users",
+                    "2",
+                    "status"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "8247a786-c453-43fa-abd2-1ea04f64c1c7"
+        }
+      ],
+      "id": "5590f913-8f1d-42b1-a55e-4fed49719bfe"
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "Create Course",
+          "item": [
+            {
+              "name": "Instructor Create Course",
+              "id": "c3016cff-8a8e-4edd-971b-c8cf0cbd7742",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"title\": \"PHP Crash Course\", \"description\": \"PHP CARSH COURSE IN 5 HOURS\"}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/courses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "8e17c611-c249-46e1-b5c1-42aafa2ae65e"
+        },
+        {
+          "name": "List Courses",
+          "item": [
+            {
+              "name": "Guest Course List",
+              "id": "091ab9af-6140-41f2-a5c9-f7f0274476d1",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/courses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Student Course List",
+              "id": "23655c6d-8eb8-4a4b-9b76-0aba0a6b7d22",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/courses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Instructor Course List",
+              "id": "4d0cc71e-d882-4554-a412-32d364ed1eb7",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/courses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "courses"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "a47a8e94-9759-497d-a921-9607bfcbc8c7"
+        },
+        {
+          "name": "Update Course",
+          "item": [
+            {
+              "name": "Owner Update Course",
+              "id": "bc422cbe-f25a-4545-844f-7d3a826d1c8e",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": [
+                {
+                  "id": "1cb52bb4-2bf2-4af7-b25a-921d728a27c2",
+                  "name": "Owner Update Course",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\"title\": \"PHP Crash Course\", \"description\": \"PHP CARSH COURSE IN 10 HOURS\"}"
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/{{api_version}}/courses/1",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "{{api_version}}",
+                        "courses",
+                        "1"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": null,
+                  "header": [
+                    {
+                      "key": "Date",
+                      "value": "Mon, 26 Jan 2026 18:40:36 GMT"
+                    },
+                    {
+                      "key": "Server",
+                      "value": "Apache/2.4.58 (Win64) OpenSSL/3.1.3 PHP/8.2.12"
+                    },
+                    {
+                      "key": "Vary",
+                      "value": "Authorization"
+                    },
+                    {
+                      "key": "X-Powered-By",
+                      "value": "PHP/8.2.12"
+                    },
+                    {
+                      "key": "Cache-Control",
+                      "value": "no-cache, private"
+                    },
+                    {
+                      "key": "Access-Control-Allow-Origin",
+                      "value": "*"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=5, max=100"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "Keep-Alive"
+                    },
+                    {
+                      "key": "Transfer-Encoding",
+                      "value": "chunked"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"title\": \"PHP Crash Course\",\n        \"description\": \"PHP CARSH COURSE IN 5 HOURS\",\n        \"status\": \"DRAFT\",\n        \"created_by\": 3,\n        \"created_at\": \"2026-01-26T18:37:52.000000Z\",\n        \"updated_at\": \"2026-01-26T18:37:52.000000Z\"\n    }\n}"
+                }
+              ]
+            },
+            {
+              "name": "New Request",
+              "id": "36dcb64f-ff31-46b8-9d9e-a810ab727f32",
+              "request": {
+                "method": "GET",
+                "header": []
+              },
+              "response": []
+            }
+          ],
+          "id": "6a0e544a-22f5-4c0f-b2d7-1faff011906b"
+        },
+        {
+          "name": "Delete Course",
+          "item": [
+            {
+              "name": "Delete Course",
+              "id": "69d041da-1c3e-48d0-9fdc-1b1201bb42d5",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/{{api_version}}/courses/1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "{{api_version}}",
+                    "courses",
+                    "1"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "db1c668d-6ee7-4198-b764-68c10965ab3b"
+        }
+      ],
+      "id": "2c288dcc-fe1b-4449-9678-8c8426210100"
+    },
+    {
+      "name": "Enrollment",
+      "item": [
+        {
+          "name": "Enroll User",
+          "item": [],
+          "id": "3c401698-895a-431a-8952-a6a20e40b168"
+        }
+      ],
+      "id": "b046eb42-a173-476e-9d70-6837b92e94b1"
+    }
+  ],
+  "variable": [
+    {
+      "id": "cdc523e1-d4a0-40db-8219-862e4a5770d7",
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "id": "535b3cc7-f898-4a88-8fed-7f6ba90e7cb7",
+      "key": "api_version",
+      "value": ""
+    },
+    {
+      "id": "33e34546-122e-48e2-ae38-4f06cb764d08",
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
