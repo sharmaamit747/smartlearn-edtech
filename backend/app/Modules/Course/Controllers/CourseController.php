@@ -79,4 +79,15 @@ class CourseController extends Controller
             'message' => 'Course deleted successfully',
         ]);
     }
+
+    public function publish(Course $course)
+    {
+        $this->authorize('publish', $course);
+
+        $course = $this->courseService->publish($course);
+
+        return response()->json([
+            'message' => 'Course published successfully',
+        ]);
+    }
 }

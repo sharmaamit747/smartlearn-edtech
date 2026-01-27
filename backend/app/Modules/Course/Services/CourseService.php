@@ -69,7 +69,6 @@ class CourseService
 
         $course->update([
             'status' => Course::STATUS_PUBLISHED,
-            'published_at' => now(),
         ]);
 
         return $course;
