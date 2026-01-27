@@ -23,6 +23,8 @@ class RbacSeeder extends Seeder
             'course.create',
             'course.update.any',
             'course.delete.any',
+            'course.publish',
+            'course.publish.any',
         ];
 
         foreach ($permissions as $perm) {
@@ -47,6 +49,7 @@ class RbacSeeder extends Seeder
                 'course.create',
                 'course.update',
                 'course.view',
+                'course.publish',
             ])->pluck('id')
         );
 
