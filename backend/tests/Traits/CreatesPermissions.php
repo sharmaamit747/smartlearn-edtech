@@ -31,6 +31,8 @@ trait CreatesPermissions
             'course.create',
             'course.update.any',
             'course.delete.any',
+            'course.publish',
+            'course.publish.any',
         ];
 
         foreach ($permissions as $permission) {
