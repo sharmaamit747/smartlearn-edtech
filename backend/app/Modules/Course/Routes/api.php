@@ -21,5 +21,8 @@ Route::prefix('courses')->group(function () {
 
         Route::delete('/{course}', [CourseController::class, 'destroy'])
             ->middleware('permission:course.delete');
+
+        Route::post('/{course}/publish', [CourseController::class, 'publish'])
+            ->middleware('permission:course.publish');
     });
 });

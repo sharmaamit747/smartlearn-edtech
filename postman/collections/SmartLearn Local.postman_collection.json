@@ -123,7 +123,7 @@
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Host",
@@ -254,33 +254,7 @@
           "id": "c72d7fd7-2b92-42cc-b7e2-9dd8769f8107",
           "auth": {
             "type": "bearer"
-          },
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "id": "eb4a28ad-798d-4994-a863-854d85698fe1",
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {},
-                "exec": [
-                  ""
-                ]
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "id": "557964af-38bd-4cfc-84e7-3a306e434f68",
-                "type": "text/javascript",
-                "packages": {},
-                "requests": {},
-                "exec": [
-                  ""
-                ]
-              }
-            }
-          ]
+          }
         },
         {
           "name": "Update User",
@@ -614,7 +588,10 @@
               "id": "bc422cbe-f25a-4545-844f-7d3a826d1c8e",
               "request": {
                 "method": "GET",
-                "header": []
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
               },
               "response": [
                 {
@@ -653,7 +630,7 @@
                   },
                   "status": "OK",
                   "code": 200,
-                  "_postman_previewlanguage": null,
+                  "_postman_previewlanguage": "Text",
                   "header": [
                     {
                       "key": "Date",
@@ -706,7 +683,10 @@
               "id": "36dcb64f-ff31-46b8-9d9e-a810ab727f32",
               "request": {
                 "method": "GET",
-                "header": []
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
               },
               "response": []
             }
@@ -750,6 +730,24 @@
             }
           ],
           "id": "db1c668d-6ee7-4198-b764-68c10965ab3b"
+        },
+        {
+          "name": "Publish Course",
+          "item": [
+            {
+              "name": "New Request",
+              "id": "b6a02f96-3ea2-40af-b1b4-c336bedf6cc1",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "2bf15bff-aa9a-43ab-a2f4-e54ce7f7725a"
         }
       ],
       "id": "2c288dcc-fe1b-4449-9678-8c8426210100"
@@ -766,19 +764,60 @@
       "id": "b046eb42-a173-476e-9d70-6837b92e94b1"
     }
   ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "11055ac4-1664-46c4-ab12-8af33ba2fdb8",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "// Base URL + API version\r",
+          "pm.environment.set(\r",
+          "    \"api_base\",\r",
+          "    pm.environment.get(\"base_url\") + \"/\" + pm.environment.get(\"api_version\")\r",
+          ");\r",
+          "\r",
+          "// Attach token if available\r",
+          "const token = pm.environment.get(\"token\");\r",
+          "\r",
+          "if (token) {\r",
+          "    pm.request.headers.upsert({\r",
+          "        key: \"Authorization\",\r",
+          "        value: \"Bearer \" + token\r",
+          "    });\r",
+          "}\r",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "6670025b-0616-415e-b026-331948f67ddc",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
   "variable": [
     {
-      "id": "cdc523e1-d4a0-40db-8219-862e4a5770d7",
+      "id": "631ff931-9c43-47e3-93ee-aaf602e791fb",
       "key": "base_url",
       "value": ""
     },
     {
-      "id": "535b3cc7-f898-4a88-8fed-7f6ba90e7cb7",
+      "id": "56bfc34e-bf53-4109-9373-daf4104958ce",
       "key": "api_version",
       "value": ""
     },
     {
-      "id": "33e34546-122e-48e2-ae38-4f06cb764d08",
+      "id": "cdd76e5c-2040-4325-86eb-c33f92e78b96",
       "key": "token",
       "value": ""
     }

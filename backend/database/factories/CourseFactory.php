@@ -33,4 +33,11 @@ class CourseFactory extends Factory
             'status' => Course::STATUS_ARCHIVED,
         ]);
     }
+
+    public function draft(): self
+    {
+        return $this->state([
+            'status' => Course::STATUS_DRAFT,
+        ]);
+    }
 }

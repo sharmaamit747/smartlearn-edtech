@@ -20,6 +20,10 @@ class User extends Authenticatable
     public const STATUS_INACTIVE = 'INACTIVE';
     public const STATUS_BLOCKED = 'BLOCKED';
 
+    public const ROLE_Admin = 'Admin User';
+    public const ROLE_INSTRUCTOR = 'Instructor User';
+    public const ROLE_STUDENT = 'Student User';
+
     protected $table = 'users';
 
     protected $fillable = [
