@@ -86,8 +86,6 @@ class CourseController extends Controller
 
         $course = $this->courseService->publish($course);
 
-        return response()->json([
-            'message' => 'Course published successfully',
-        ]);
+        return new CourseResource($course);
     }
 }

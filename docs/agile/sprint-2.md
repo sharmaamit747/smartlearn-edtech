@@ -125,3 +125,9 @@ Day 5:
 - Policies + middleware
 - Feature tests (green)
 - Public vs private listing logic
+
+### ✅ Enrollment Module (Completed)
+- Enrollment create / cancel / complete
+- Ownership enforced via Policy
+- Business rules in Service layer
+- Feature tests included

@@ -25,6 +25,12 @@ class RbacSeeder extends Seeder
             'course.delete.any',
             'course.publish',
             'course.publish.any',
+            'course.enroll',
+            'enrollment.create',
+            'enrollment.cancel',
+            'enrollment.view',
+            'enrollment.view.any',
+            'enrollment.complete',
         ];
 
         foreach ($permissions as $perm) {
@@ -50,12 +56,20 @@ class RbacSeeder extends Seeder
                 'course.update',
                 'course.view',
                 'course.publish',
+                'enrollment.view.any',
+                'enrollment.complete',
             ])->pluck('id')
         );
 
         // Student → view only
         $student->permissions()->syncWithoutDetaching(
-            Permission::where('slug', 'course.view')->pluck('id')
+            Permission::whereIn('slug', [
+                'course.view',
+                'course.enroll',
+                'enrollment.create',
+                'enrollment.cancel',
+                'enrollment.view',
+            ])->pluck('id')
         );
     }
 }

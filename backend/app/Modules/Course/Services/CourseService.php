@@ -71,6 +71,6 @@ class CourseService
             'status' => Course::STATUS_PUBLISHED,
         ]);
 
-        return $course;
+        return $course->refresh(); // 🔥 THIS FIXES YOUR TEST
     }
 }
