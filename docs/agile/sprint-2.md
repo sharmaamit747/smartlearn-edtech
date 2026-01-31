@@ -78,9 +78,6 @@ End Date: <+5 days>
 - Added FormRequest validation and service layer
 - Added feature & unit tests
 - CI pipeline validated (green)
-Day 1:
-- User CRUD APIs (list, create)
-- RBAC enforcement
 
 Day 2:
 - User update, delete
@@ -121,7 +118,16 @@ Day 5:
 
 ## Sprint Status
 ✔ Day-2 completed and stable
-## Sprint Status
-Status: Planned  
-Release Target: v1.1.0  
-Branch Strategy: feature → develop → main
+
+### Sprint 2 – Course Module
+- Course CRUD API
+- RBAC-based permissions
+- Policies + middleware
+- Feature tests (green)
+- Public vs private listing logic
+
+### ✅ Enrollment Module (Completed)
+- Enrollment create / cancel / complete
+- Ownership enforced via Policy
+- Business rules in Service layer
+- Feature tests included

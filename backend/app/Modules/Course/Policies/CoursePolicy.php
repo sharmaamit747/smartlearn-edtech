@@ -34,4 +34,14 @@ class CoursePolicy
     {
         return $user->hasPermission('course.create');
     }
+
+    public function publish(User $user, Course $course): bool
+    {
+        if ($user->hasPermission('course.publish.any')) {
+            return true;
+        }
+
+        return $user->hasPermission('course.publish')
+            && $course->created_by === $user->id;
+    }
 }
