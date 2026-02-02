@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Modules\Enrollment\Controllers\EnrollmentController;
 use App\Modules\Enrollment\Controllers\InstructorEnrollmentController;
+use App\Modules\Enrollment\Controllers\AdminEnrollmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ Route::prefix('enrollments')
 |--------------------------------------------------------------------------
 */
 Route::prefix('instructor')
-    ->middleware(['auth:sanctum', 'ensure.active', 'role:instructor'])
+    ->middleware(['auth:sanctum', 'ensure.active'])
     ->group(function () {
 
         // Enrollments for instructor's course
@@ -41,4 +42,19 @@ Route::prefix('instructor')
             InstructorEnrollmentController::class,
             'index'
         ]);
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Admin Enrollments Control
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('admin')
+    ->middleware(['auth:sanctum', 'ensure.active'])
+    ->group(function () {
+        Route::get(
+            '/enrollments',
+            [AdminEnrollmentController::class, 'index']
+        );
     });
