@@ -44,4 +44,13 @@ class CoursePolicy
         return $user->hasPermission('course.publish')
             && $course->created_by === $user->id;
     }
+
+    /**
+     * Instructor: view enrollments of own course
+     */
+    public function viewEnrollments(User $user, Course $course): bool
+    {
+        return $user->hasPermission('enrollment.view.course')
+            && $course->created_by === $user->id;
+    }
 }
