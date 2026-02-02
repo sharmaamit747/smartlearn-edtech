@@ -13,8 +13,7 @@ class CourseApiTest extends TestCase
     use CreatesUsers;
     use ActsAsAdmin;
 
-    /** @test */
-    public function guest_can_list_only_published_courses(): void
+    public function test_guest_can_list_only_published_courses(): void
     {
         Course::factory()->create(['status' => Course::STATUS_PUBLISHED]);
         Course::factory()->create(['status' => Course::STATUS_DRAFT]);
@@ -24,8 +23,7 @@ class CourseApiTest extends TestCase
             ->assertJsonCount(1, 'data');
     }
 
-    /** @test */
-    public function student_can_list_only_published_courses(): void
+    public function test_student_can_list_only_published_courses(): void
     {
         $student = $this->createUserWithRole('student');
         Sanctum::actingAs($student);
@@ -38,8 +36,7 @@ class CourseApiTest extends TestCase
             ->assertJsonCount(1, 'data');
     }
 
-    /** @test */
-    public function instructor_can_list_own_and_published_courses(): void
+    public function test_instructor_can_list_own_and_published_courses(): void
     {
         $instructor = $this->createUserWithRole('instructor');
         Sanctum::actingAs($instructor);
@@ -62,8 +59,7 @@ class CourseApiTest extends TestCase
             ->assertJsonCount(2, 'data');
     }
 
-    /** @test */
-    public function admin_can_list_all_courses(): void
+    public function test_admin_can_list_all_courses(): void
     {
         $this->actingAsAdmin();
 
@@ -74,8 +70,7 @@ class CourseApiTest extends TestCase
             ->assertJsonCount(3, 'data');
     }
 
-    /** @test */
-    public function instructor_can_create_course(): void
+    public function test_instructor_can_create_course(): void
     {
         $instructor = $this->createUserWithRole('instructor');
         Sanctum::actingAs($instructor);
@@ -88,8 +83,7 @@ class CourseApiTest extends TestCase
             ->assertJsonPath('data.title', 'Laravel Basics');
     }
 
-    /** @test */
-    public function student_cannot_create_course(): void
+    public function test_student_cannot_create_course(): void
     {
         $student = $this->createUserWithRole('student');
         Sanctum::actingAs($student);
@@ -100,8 +94,7 @@ class CourseApiTest extends TestCase
             ->assertStatus(403);
     }
 
-    /** @test */
-    public function instructor_can_update_own_course(): void
+    public function test_instructor_can_update_own_course(): void
     {
         $instructor = $this->createUserWithRole('instructor');
         Sanctum::actingAs($instructor);
@@ -117,8 +110,7 @@ class CourseApiTest extends TestCase
             ->assertJsonPath('data.title', 'Updated Title');
     }
 
-    /** @test */
-    public function instructor_cannot_update_others_course(): void
+    public function test_instructor_cannot_update_others_course(): void
     {
         $instructor = $this->createUserWithRole('instructor');
         Sanctum::actingAs($instructor);
@@ -131,8 +123,7 @@ class CourseApiTest extends TestCase
             ->assertStatus(403);
     }
 
-    /** @test */
-    public function admin_can_delete_any_course(): void
+    public function test_admin_can_delete_any_course(): void
     {
         $this->actingAsAdmin();
 

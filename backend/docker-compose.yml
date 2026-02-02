@@ -1,32 +1,33 @@
 services:
   app:
+    container_name: smartlearn-backend
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: smartlearn_app
-    volumes:
-      - .:/var/www
-    depends_on:
-      - db
     env_file:
-      - .env.docker
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
     ports:
       - "8000:8000"
+    volumes:
+      - .:/var/www
     command: php artisan serve --host=0.0.0.0 --port=8000
 
-  db:
+  mysql:
     image: mysql:8.0
-    container_name: smartlearn_db
-    restart: unless-stopped
-    ports:
-      - "3307:3306"
+    container_name: smartlearn-mysql
     environment:
-      MYSQL_DATABASE: smartlearn
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: smartlearn
-      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: smartlearn_backend
+      MYSQL_ROOT_PASSWORD: secret
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-psecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     volumes:
-      - dbdata:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
 
 volumes:
-  dbdata:
+  mysql_data:

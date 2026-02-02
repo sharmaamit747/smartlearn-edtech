@@ -10,4 +10,5 @@ Route::prefix('enrollments')
         Route::post('/courses/{course}', [EnrollmentController::class, 'store']);
         Route::post('/{enrollment}/cancel', [EnrollmentController::class, 'cancel']);
         Route::post('/{enrollment}/complete', [EnrollmentController::class, 'complete']);
+        Route::get('/my', [EnrollmentController::class, 'myEnrollments']);
     });

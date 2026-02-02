@@ -569,6 +569,46 @@
       "name": "Enrollment",
       "item": [
         {
+          "name": "Student",
+          "item": [
+            {
+              "name": "GET My Enrollments",
+              "id": "93eff9cd-52e8-44bf-8153-546138b0e262",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text",
+                    "uuid": "1e4b2b26-97a1-4519-86f1-2347c02bb57f"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text",
+                    "uuid": "f6f029f7-4c2a-45fc-9b88-d0e88d5fe520"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/enrollments/my",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "enrollments",
+                    "my"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "05f618ba-f79e-43b5-8c4c-26236406d23b"
+        },
+        {
           "name": "Course Enrollment",
           "id": "4a1d3c36-9103-4531-8fc9-54c26c6edd07",
           "request": {
@@ -684,7 +724,7 @@
     {
       "listen": "prerequest",
       "script": {
-        "id": "b706b499-44a9-46e3-a7b5-5dc2c0ef19ac",
+        "id": "fd27f9ee-6f02-472e-a5a2-7c7794f4ce0b",
         "type": "text/javascript",
         "packages": {},
         "requests": {},
@@ -711,7 +751,7 @@
     {
       "listen": "test",
       "script": {
-        "id": "9cb0efc6-a7b0-49f8-92fd-aa456aba290d",
+        "id": "5219f69f-6988-4392-bfe1-a04b6eb94590",
         "type": "text/javascript",
         "packages": {},
         "requests": {},
@@ -723,17 +763,17 @@
   ],
   "variable": [
     {
-      "id": "5e6cba5d-0059-4656-b9a0-fb33f27dbd74",
+      "id": "cf4bd740-4d10-4f3e-908e-06434eef9d6d",
       "key": "base_url",
       "value": "http://localhost:8000"
     },
     {
-      "id": "4cc219b0-e9de-42a6-b618-6c54d43edf03",
+      "id": "463bd1d2-a8eb-4120-9e57-c213bf83b74b",
       "key": "api_version",
       "value": ""
     },
     {
-      "id": "9e2f8132-63ad-4a43-9bae-b2e2dca3a292",
+      "id": "f8e243e3-198c-473c-912a-aa7dd7f3c72c",
       "key": "token",
       "value": ""
     }

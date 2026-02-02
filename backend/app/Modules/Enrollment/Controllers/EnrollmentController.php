@@ -55,4 +55,17 @@ class EnrollmentController extends Controller
 
         return new EnrollmentResource($enrollment);
     }
+
+    public function myEnrollments(Request $request)
+    {
+        // Authorization
+        $this->authorize('viewSelf', Enrollment::class);
+
+        $enrollments = Enrollment::query()
+            ->where('user_id', $request->user()->id)
+            ->latest()
+            ->paginate(10);
+
+        return EnrollmentResource::collection($enrollments);
+    }
 }
