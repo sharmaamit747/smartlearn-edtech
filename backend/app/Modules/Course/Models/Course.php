@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Modules\User\Models\User;
+use App\Modules\Enrollment\Models\Enrollment;
 use Database\Factories\CourseFactory;
 
 class Course extends Model
@@ -31,5 +32,10 @@ class Course extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
     }
 }
