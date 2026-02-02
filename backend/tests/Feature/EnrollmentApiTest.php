@@ -20,8 +20,7 @@ class EnrollmentApiTest extends TestCase
         parent::setUp();
     }
 
-    /** @test */
-    public function student_can_enroll_in_published_course(): void
+    public function test_student_can_enroll_in_published_course(): void
     {
         $student = $this->createUserWithRole('student');
         $instructor = $this->createUserWithRole('instructor');
@@ -39,9 +38,7 @@ class EnrollmentApiTest extends TestCase
             ->assertJsonPath('data.status', Enrollment::STATUS_ACTIVE);
     }
 
-
-    /** @test */
-    public function student_cannot_enroll_twice(): void
+    public function test_student_cannot_enroll_twice(): void
     {
         $student = $this->createUserWithRole('student');
         Sanctum::actingAs($student);
@@ -56,8 +53,7 @@ class EnrollmentApiTest extends TestCase
             ->assertStatus(422);
     }
 
-    /** @test */
-    public function student_cannot_enroll_in_draft_course(): void
+    public function test_student_cannot_enroll_in_draft_course(): void
     {
         $student = $this->createUserWithRole('student');
         Sanctum::actingAs($student);
@@ -67,8 +63,7 @@ class EnrollmentApiTest extends TestCase
             ->assertStatus(422);
     }
 
-    /** @test */
-    public function instructor_cannot_enroll_in_own_course(): void
+    public function test_instructor_cannot_enroll_in_own_course(): void
     {
         $instructor = $this->createUserWithRole('instructor');
         Sanctum::actingAs($instructor);
@@ -80,8 +75,7 @@ class EnrollmentApiTest extends TestCase
             ->assertStatus(403);
     }
 
-    /** @test */
-    public function student_can_cancel_own_enrollment(): void
+    public function test_student_can_cancel_own_enrollment(): void
     {
         $student = $this->createUserWithRole('student');
         Sanctum::actingAs($student);
@@ -94,8 +88,7 @@ class EnrollmentApiTest extends TestCase
             ->assertJsonPath('data.status', Enrollment::STATUS_CANCELLED);
     }
 
-    /** @test */
-    public function student_can_complete_enrollment(): void
+    public function test_student_can_complete_enrollment(): void
     {
         $student = $this->createUserWithRole('student');
         Sanctum::actingAs($student);
@@ -109,8 +102,7 @@ class EnrollmentApiTest extends TestCase
             ->assertJsonPath('data.status', Enrollment::STATUS_COMPLETED);
     }
 
-    /** @test */
-    public function user_cannot_modify_others_enrollment(): void
+    public function test_user_cannot_modify_others_enrollment(): void
     {
         $owner = $this->createUserWithRole('student');
         $attacker = $this->createUserWithRole('student');
@@ -123,5 +115,31 @@ class EnrollmentApiTest extends TestCase
 
         $this->postJson("/api/v1/enrollments/{$enrollment->id}/cancel")
             ->assertStatus(403);
+    }
+
+    public function test_student_can_view_own_enrollments(): void
+    {
+        $student = $this->createUserWithRole('student');
+        Sanctum::actingAs($student);
+
+        Enrollment::factory()->count(3)->create([
+            'user_id' => $student->id,
+        ]);
+
+        $this->getJson('/api/v1/enrollments/my')
+            ->assertOk()
+            ->assertJsonCount(3, 'data');
+    }
+
+    public function test_student_cannot_view_others_enrollments(): void
+    {
+        $student = $this->createUserWithRole('student');
+        Sanctum::actingAs($student);
+
+        Enrollment::factory()->create(); // other user
+
+        $this->getJson('/api/v1/enrollments/my')
+            ->assertOk()
+            ->assertJsonCount(0, 'data');
     }
 }

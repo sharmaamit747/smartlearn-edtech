@@ -28,9 +28,10 @@ class RbacSeeder extends Seeder
             'course.enroll',
             'enrollment.create',
             'enrollment.cancel',
-            'enrollment.view',
-            'enrollment.view.any',
             'enrollment.complete',
+            'enrollment.view.self',
+            'enrollment.view.course',
+            'enrollment.view.any',
         ];
 
         foreach ($permissions as $perm) {
@@ -56,7 +57,7 @@ class RbacSeeder extends Seeder
                 'course.update',
                 'course.view',
                 'course.publish',
-                'enrollment.view.any',
+                'enrollment.view.course',
                 'enrollment.complete',
             ])->pluck('id')
         );
@@ -68,7 +69,7 @@ class RbacSeeder extends Seeder
                 'course.enroll',
                 'enrollment.create',
                 'enrollment.cancel',
-                'enrollment.view',
+                'enrollment.view.self',
             ])->pluck('id')
         );
     }
