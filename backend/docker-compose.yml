@@ -25,6 +25,11 @@ services:
       --queue=enrollments
       --sleep=3
       --tries=5
+      --backoff=10 &&
+      php artisan queue:work redis \
+      --queue=enrollments,notifications \
+      --sleep=3 \
+      --tries=5 \
       --backoff=10
       "
 

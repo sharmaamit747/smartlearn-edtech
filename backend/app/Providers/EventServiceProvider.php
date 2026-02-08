@@ -7,6 +7,7 @@ use App\Modules\Enrollment\Events\EnrollmentCreated;
 use App\Modules\Enrollment\Events\EnrollmentCancelled;
 use App\Modules\Enrollment\Events\EnrollmentCompleted;
 use App\Modules\Enrollment\Listeners\ClearEnrollmentCache;
+use App\Modules\Enrollment\Listeners\SendEnrollmentNotification;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         EnrollmentCreated::class => [
             ClearEnrollmentCache::class,
+            SendEnrollmentNotification::class,
         ],
 
         EnrollmentCancelled::class => [
@@ -25,6 +27,7 @@ class EventServiceProvider extends ServiceProvider
         EnrollmentCompleted::class => [
             ClearEnrollmentCache::class,
         ],
+
     ];
 
     /**
