@@ -14,6 +14,7 @@ use App\Modules\Enrollment\Events\{
     EnrollmentCancelled,
     EnrollmentCompleted
 };
+use App\Support\ObservabilityLogger;
 
 
 class EnrollmentController extends Controller
@@ -35,6 +36,13 @@ class EnrollmentController extends Controller
             $course
         );
 
+        ObservabilityLogger::enrollment('created', [
+            'enrollment_id' => $enrollment->id,
+            'user_id'       => $enrollment->user_id,
+            'course_id'     => $enrollment->course_id,
+        ]);
+
+
         event(new EnrollmentCreated($enrollment));
 
         return (new EnrollmentResource($enrollment))
@@ -51,6 +59,10 @@ class EnrollmentController extends Controller
         $this->authorize('cancel', $enrollment);
 
         $enrollment = $this->enrollmentService->cancel($enrollment);
+        ObservabilityLogger::enrollment('cancelled', [
+            'enrollment_id' => $enrollment->id,
+            'user_id'       => $enrollment->user_id,
+        ]);
 
         event(new EnrollmentCancelled($enrollment));
 
@@ -62,6 +74,9 @@ class EnrollmentController extends Controller
         $this->authorize('complete', $enrollment);
 
         $enrollment = $this->enrollmentService->complete($enrollment);
+        ObservabilityLogger::enrollment('completed', [
+            'enrollment_id' => $enrollment->id,
+        ]);
 
         event(new EnrollmentCompleted($enrollment));
 

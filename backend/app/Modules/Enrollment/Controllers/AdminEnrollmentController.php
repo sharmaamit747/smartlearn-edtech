@@ -7,6 +7,7 @@ use App\Modules\Enrollment\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Cache;
+use App\Support\ObservabilityLogger;
 
 class AdminEnrollmentController extends Controller
 {
@@ -43,6 +44,17 @@ class AdminEnrollmentController extends Controller
                 ->latest('enrollments.created_at')
                 ->paginate(20);
         });
+
+        ObservabilityLogger::enrollment('admin_list_accessed', [
+            'admin_id' => auth()->id(),
+            'filters'  => request()->only([
+                'search',
+                'course_id',
+                'user_id',
+                'status',
+            ]),
+        ]);
+
 
         return response()->json([
             'success' => true,

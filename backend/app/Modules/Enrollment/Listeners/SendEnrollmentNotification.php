@@ -5,6 +5,7 @@ namespace App\Modules\Enrollment\Listeners;
 use App\Modules\Enrollment\Events\EnrollmentCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Support\ObservabilityLogger;
 
 class SendEnrollmentNotification implements ShouldQueue
 {
@@ -19,11 +20,17 @@ class SendEnrollmentNotification implements ShouldQueue
             'user_id'       => $event->enrollment->user_id,
             'course_id'     => $event->enrollment->course_id,
         ]);
+        ObservabilityLogger::queue('notification_handled', [
+            'enrollment_id' => $event->enrollment->id,
+        ]);
     }
 
     public function failed(\Throwable $exception): void
     {
         logger()->error('Enrollment notification failed', [
+            'error' => $exception->getMessage(),
+        ]);
+        ObservabilityLogger::queue('notification_failed', [
             'error' => $exception->getMessage(),
         ]);
     }

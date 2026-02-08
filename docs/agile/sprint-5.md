@@ -43,3 +43,8 @@ php artisan queue:restart
 
 Health endpoint:
 /up
+
+Used for:
+- Docker healthchecks
+- Load balancer probes
+- Monitoring systems
