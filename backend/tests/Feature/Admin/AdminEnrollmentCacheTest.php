@@ -31,4 +31,16 @@ class AdminEnrollmentCacheTest extends TestCase
             Cache::tags(['admin_enrollments'])->has('test_key')
         );
     }
+
+    public function test_cache_version_increments_on_enrollment_create(): void
+    {
+        Cache::put('admin_enrollments_version', 1);
+
+        Enrollment::factory()->create();
+
+        $this->assertEquals(
+            2,
+            Cache::get('admin_enrollments_version')
+        );
+    }
 }

@@ -13,13 +13,13 @@ class ClearEnrollmentCache implements ShouldQueue
 
     public function handle(): void
     {
-        Cache::tags(['admin_enrollments'])->flush();
+        Cache::increment('admin_enrollments_version');
     }
 
-    public function failed(Throwable $exception): void
+    public function failed(\Throwable $exception): void
     {
-        logger()->error('Enrollment cache clear failed', [
-            'exception' => $exception->getMessage(),
+        logger()->error('Cache version increment failed', [
+            'error' => $exception->getMessage(),
         ]);
     }
 }
