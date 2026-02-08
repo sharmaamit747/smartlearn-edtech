@@ -51,7 +51,7 @@ Route::prefix('instructor')
 */
 
 Route::prefix('admin')
-    ->middleware(['auth:sanctum', 'ensure.active'])
+    ->middleware(['auth:sanctum', 'ensure.active', 'throttle:enrollments'])
     ->group(function () {
         Route::get(
             '/enrollments',

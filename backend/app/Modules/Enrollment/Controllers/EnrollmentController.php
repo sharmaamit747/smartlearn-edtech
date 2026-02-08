@@ -9,6 +9,12 @@ use App\Modules\Enrollment\Services\EnrollmentService;
 use App\Modules\Enrollment\Models\Enrollment;
 use App\Modules\Course\Models\Course;
 use App\Modules\Enrollment\Resources\EnrollmentResource;
+use App\Modules\Enrollment\Events\{
+    EnrollmentCreated,
+    EnrollmentCancelled,
+    EnrollmentCompleted
+};
+
 
 class EnrollmentController extends Controller
 {
@@ -29,6 +35,8 @@ class EnrollmentController extends Controller
             $course
         );
 
+        event(new EnrollmentCreated($enrollment));
+
         return (new EnrollmentResource($enrollment))
             ->response()
             ->setStatusCode(201);
@@ -44,6 +52,8 @@ class EnrollmentController extends Controller
 
         $enrollment = $this->enrollmentService->cancel($enrollment);
 
+        event(new EnrollmentCancelled($enrollment));
+
         return new EnrollmentResource($enrollment);
     }
 
@@ -52,6 +62,8 @@ class EnrollmentController extends Controller
         $this->authorize('complete', $enrollment);
 
         $enrollment = $this->enrollmentService->complete($enrollment);
+
+        event(new EnrollmentCompleted($enrollment));
 
         return new EnrollmentResource($enrollment);
     }
