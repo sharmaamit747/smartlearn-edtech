@@ -4,7 +4,7 @@ namespace App\Modules\Enrollment\Events;
 
 use App\Modules\Enrollment\Models\Enrollment;
 
-class EnrollmentCreated
+class EnrollmentCancelled
 {
     public function __construct(
         public readonly Enrollment $enrollment
