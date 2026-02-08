@@ -20,7 +20,12 @@ services:
       php artisan key:generate --force &&
       php artisan migrate --force &&
       php artisan package:discover &&
-      php artisan serve --host=0.0.0.0 --port=8000
+      php artisan serve --host=0.0.0.0 --port=8000 &&
+      php artisan queue:work redis
+      --queue=enrollments
+      --sleep=3
+      --tries=5
+      --backoff=10
       "
 
   queue:
