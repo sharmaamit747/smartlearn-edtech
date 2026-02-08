@@ -1,0 +1,325 @@
+{
+  "info": {
+    "_postman_id": "5194dd3e-4c96-497e-93b8-740e44035b70",
+    "name": "ToppersPlace Auth API (v1)",
+    "description": "Module-based Auth APIs with OTP & Sanctum",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth / Register (OTP)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "57910fe0-7166-4cb7-be4c-7743544acfff",
+            "exec": [
+              "pm.test(\"Register success\", () => {\r",
+              "  pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"OTP required\", () => {\r",
+              "  const json = pm.response.json();\r",
+              "  pm.expect(json.status).to.eql(\"success\");\r",
+              "  pm.expect(json.next).to.eql(\"verify-otp\");\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "10d08399-acb7-4030-9489-a74412bf29f4",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "f116f1ca-f80d-4e26-bf1d-14f399c11bb0",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "user_type",
+              "value": "Student",
+              "type": "text"
+            },
+            {
+              "key": "name",
+              "value": "Amit Kumar",
+              "type": "text"
+            },
+            {
+              "key": "login",
+              "value": "sharmaamit747@gmail.com",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Auth / Verify OTP",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "id": "37acc4b4-3f26-412d-a122-f456f383d6cc",
+            "exec": [
+              "pm.test(\"OTP verified\", () => {\r",
+              "  pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "const json = pm.response.json();\r",
+              "\r",
+              "pm.test(\"Token received\", () => {\r",
+              "  pm.expect(json.token).to.exist;\r",
+              "});\r",
+              "\r",
+              "// Save token\r",
+              "pm.collectionVariables.set(\"token\", json.token);\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "0da2c267-005c-4556-ad4a-f085a95f219e",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "id": "95a6ccbd-49f9-4e24-9acb-6340ef27fb0b",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "login",
+              "value": "sharmaamit747@gmail.com",
+              "type": "text",
+              "uuid": "b8c78489-6ea7-44f4-8aba-1035e49e3c82"
+            },
+            {
+              "key": "otp",
+              "value": "6213",
+              "type": "text",
+              "uuid": "4ffbc123-8138-44f3-8815-1857de0fddad"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/auth/verify-otp",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "verify-otp"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Auth / Login",
+      "id": "c7cd6480-ddd5-4ace-a3d1-e229e6627003",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"login\": \"amit@test.com\",\n  \"password\": \"secret\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/v1/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Auth / Me",
+      "id": "87029243-1aef-4312-9799-8727ed814855",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/me",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "me"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Auth / Logout",
+      "id": "2e24fb75-126e-4dca-b1db-456e0d8dd96a",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "02929e77-e4f5-41d4-beac-f9220bcaadea",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          "pm.request.headers.add({\r",
+          "  key: \"Accept\",\r",
+          "  value: \"application/json\"\r",
+          "});\r",
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "6ef745a0-5a59-42fe-9802-818d86539d19",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "id": "5356c5ba-df6c-4c96-b35a-821fcbb9cd47",
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "id": "7d124b2d-3660-4b4a-af00-05f76391035a",
+      "key": "token",
+      "value": ""
+    },
+    {
+      "id": "9a26fa55-7ccf-47e5-91ef-a972b06c78df",
+      "key": "otp",
+      "value": ""
+    },
+    {
+      "id": "32ba68cf-bfea-49c5-bdeb-9b9308e17aad",
+      "key": "login",
+      "value": ""
+    },
+    {
+      "id": "53f7cf70-00a6-4bde-a662-2c39841d6581",
+      "key": "password",
+      "value": ""
+    }
+  ]
+}

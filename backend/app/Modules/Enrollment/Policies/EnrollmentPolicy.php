@@ -3,14 +3,12 @@
 namespace App\Modules\Enrollment\Policies;
 
 use App\Modules\User\Models\User;
-use App\Modules\Course\Models\Course;
 use App\Modules\Enrollment\Models\Enrollment;
 
 class EnrollmentPolicy
 {
-    public function create(User $user, Course $course): bool
+    public function create(User $user): bool
     {
-        // allow attempt, service decides validity
         return true;
     }
 
@@ -33,15 +31,6 @@ class EnrollmentPolicy
     }
 
     /**
-     * Instructor: view enrollments of own course
-     */
-    public function viewCourse(User $user, Course $course): bool
-    {
-        return $user->hasPermission('enrollment.view.course')
-            && $course->created_by === $user->id;
-    }
-
-    /**
      * Admin: view all enrollments
      */
     public function viewAny(User $user): bool
@@ -50,7 +39,7 @@ class EnrollmentPolicy
     }
 
     /**
-     * Single enrollment access (reuse for cancel/complete safety)
+     * Single enrollment access safety
      */
     public function view(User $user, Enrollment $enrollment): bool
     {

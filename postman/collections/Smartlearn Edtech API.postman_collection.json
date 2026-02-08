@@ -13,10 +13,72 @@
           "name": "Login",
           "event": [
             {
-              "listen": "prerequest",
+              "listen": "test",
               "script": {
-                "id": "ee3027e9-1002-4a88-9e2c-b8f76b71a813",
+                "id": "ab423152-75b6-476c-b82d-f11cec71b3c0",
                 "exec": [
+                  "// Tests for \"Login\" request\r",
+                  "const responseJson = (() => {\r",
+                  "    try {\r",
+                  "        return pm.response.json();\r",
+                  "    } catch (e) {\r",
+                  "        return null;\r",
+                  "    }\r",
+                  "})();\r",
+                  "\r",
+                  "// 1) Status code is 200 or 201 (accept common success codes)\r",
+                  "pm.test(\"Status is 200 or 201\", () => {\r",
+                  "    pm.expect(pm.response.code === 200 || pm.response.code === 201).to.be.true;\r",
+                  "});\r",
+                  "\r",
+                  "// 2) Response body is valid JSON\r",
+                  "pm.test(\"Response is JSON\", () => {\r",
+                  "    pm.expect(responseJson, \"Response body is valid JSON\").to.be.an(\"object\");\r",
+                  "});\r",
+                  "\r",
+                  "// 3) Token exists and looks like a JWT (three dot-separated parts)\r",
+                  "pm.test(\"Response contains a token (looks like JWT)\", () => {\r",
+                  "    pm.expect(responseJson, \"response JSON must exist\").to.be.an(\"object\");\r",
+                  "    pm.expect(responseJson).to.have.property(\"token\");\r",
+                  "    pm.expect(responseJson.token, \"token must be a non-empty string\").to.be.a(\"string\").that.is.not.empty;\r",
+                  "    // basic JWT-like format check\r",
+                  "    const parts = responseJson.token.split(\".\");\r",
+                  "    pm.expect(parts.length === 3, \"token should have three parts (JWT)\").to.be.true;\r",
+                  "});\r",
+                  "\r",
+                  "// 4) Optional: user object exists with id and email (if your API returns user info)\r",
+                  "pm.test(\"Response contains user.id and user.email when user object present\", () => {\r",
+                  "    if (responseJson && responseJson.user) {\r",
+                  "        pm.expect(responseJson.user).to.be.an(\"object\");\r",
+                  "        pm.expect(responseJson.user).to.have.property(\"id\");\r",
+                  "        pm.expect(responseJson.user.id).to.satisfy(val => typeof val === \"number\" || typeof val === \"string\");\r",
+                  "        pm.expect(responseJson.user).to.have.property(\"email\");\r",
+                  "        pm.expect(responseJson.user.email).to.be.a(\"string\").that.includes(\"@\");\r",
+                  "    } else {\r",
+                  "        pm.expect(true).to.be.true; // pass when no user object is returned (keeps test suite flexible)\r",
+                  "    }\r",
+                  "});\r",
+                  "\r",
+                  "// 5) Response time under 2 seconds\r",
+                  "pm.test(\"Response time is less than 2000 ms\", () => {\r",
+                  "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+                  "});\r",
+                  "\r",
+                  "// 6) Content-Type header is application/json\r",
+                  "pm.test(\"Content-Type is application/json\", () => {\r",
+                  "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+                  "});\r",
+                  "\r",
+                  "// 7) Helpful failure tests: if unauthorized, assert proper structure for error\r",
+                  "pm.test(\"If unauthorized, response includes message\", () => {\r",
+                  "    if (pm.response.code === 401 || pm.response.code === 403) {\r",
+                  "        pm.expect(responseJson).to.be.an(\"object\");\r",
+                  "        pm.expect(responseJson).to.have.property(\"message\");\r",
+                  "        pm.expect(responseJson.message).to.be.a(\"string\").that.is.not.empty;\r",
+                  "    } else {\r",
+                  "        pm.expect(true).to.be.true;\r",
+                  "    }\r",
+                  "});\r",
                   ""
                 ],
                 "type": "text/javascript",
@@ -25,16 +87,10 @@
               }
             },
             {
-              "listen": "test",
+              "listen": "prerequest",
               "script": {
-                "id": "efd407c3-72c0-4fd6-8f90-89fb05b87875",
+                "id": "cd0b044b-2efa-4041-9d5a-9917e3683e29",
                 "exec": [
-                  "const response = pm.response.json();\r",
-                  "\r",
-                  "// Adjust key based on your API response\r",
-                  "if (response.token) {\r",
-                  "    pm.environment.set(\"token\", response.token);\r",
-                  "}\r",
                   ""
                 ],
                 "type": "text/javascript",
@@ -58,7 +114,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"student@example.com\",\n    \"password\": \"password\"\n}"
+              "raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"password\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/v1/auth/login",
@@ -609,6 +665,137 @@
           "id": "05f618ba-f79e-43b5-8c4c-26236406d23b"
         },
         {
+          "name": "Instructor",
+          "item": [
+            {
+              "name": "GET Course Enrollments",
+              "id": "a5f2b470-6886-4dfb-b012-1e858cf16d96",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "08afd2de-83f8-477e-96a4-f89881a1a2de"
+        },
+        {
+          "name": "Admin",
+          "item": [
+            {
+              "name": "List Enrollments (Cached)",
+              "id": "08bd5e85-62e0-41dd-abbf-1748225c257d",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text",
+                    "uuid": "98974a73-cf41-41c5-ad86-41d2a399a02b"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{token}}",
+                    "type": "text",
+                    "uuid": "a4e8f084-f38c-41fd-8ecb-aef9b9a39c30"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/v1/admin/enrollments",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "enrollments"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter by Course",
+              "id": "469452fa-4206-4dfe-995b-b7e23befdc2a",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Filter by User",
+              "id": "a78134a2-eb2c-465f-8c32-dd7468d55901",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": ""
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Search by Name/Email",
+              "id": "35b3f01e-a481-4b91-a529-a9c02ca14d58",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json",
+                    "type": "text",
+                    "uuid": "068259dc-c3ab-469f-9903-541a1620e522"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": " Bearer {{token}}",
+                    "type": "text",
+                    "uuid": "7a27941e-6909-4674-9214-3651c765658f"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/v1/admin/enrollments?search=rahul",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "admin",
+                    "enrollments"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "rahul"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "38714ccf-b8b1-4bcf-9368-81f54927162e"
+        },
+        {
           "name": "Course Enrollment",
           "id": "4a1d3c36-9103-4531-8fc9-54c26c6edd07",
           "request": {
@@ -627,6 +814,15 @@
                 "uuid": "14d1d240-a8a3-4342-bf85-cb000dbbb8e8"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{base_url}}/api/v1/enrollments/courses/1",
               "host": [

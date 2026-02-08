@@ -9,11 +9,40 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+      redis:
+        condition: service_started
     ports:
       - "8000:8000"
     volumes:
       - .:/var/www
-    command: php artisan serve --host=0.0.0.0 --port=8000
+    command: >
+      sh -c "
+      php artisan key:generate --force &&
+      php artisan migrate --force &&
+      php artisan package:discover &&
+      php artisan serve --host=0.0.0.0 --port=8000
+      "
+
+  queue:
+    container_name: smartlearn-queue
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - .:/var/www
+    command: >
+      sh -c "
+      php artisan package:discover &&
+      php artisan queue:work redis --queue=enrollments --sleep=3 --tries=3
+      "
+    restart: unless-stopped
 
   mysql:
     image: mysql:8.0
@@ -28,6 +57,12 @@ services:
       retries: 10
     volumes:
       - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7-alpine
+    container_name: smartlearn-redis
+    ports:
+      - "6379:6379"
 
 volumes:
   mysql_data:
